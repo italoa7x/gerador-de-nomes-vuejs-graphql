@@ -19,18 +19,18 @@
             <div class="card">
               <div class="card-body">
                 <ul class="list-group">
-                  <li
-                    class="list-group-item"
-                    v-for="prefix in prefixeds"
-                    v-bind:key="prefix"
-                  >
-                    {{ prefix }}
+                  <li class="list-group-item" v-for="prefix in prefixeds" v-bind:key="prefix">
+                    <div class="row">
+                      {{ prefix }}
+                      <div class="col-md text-right">
+                        <button class="btn btn-info" v-on:click="deletePrefix(prefix)"><span class="fa fa-trash"> </span></button>
+                      </div>
+                    </div>
                   </li>
                 </ul>
                 <br />
                 <div class="input-group">
-                  <input class="form-control" v-model="prefix" placeholder="Digite um prefixo" v-on:keyup.enter="addPrefix(prefix)"
-                  />
+                  <input class="form-control" v-model="prefix" placeholder="Digite um prefixo" v-on:keyup.enter="addPrefix(prefix)"/>
                   <div class="input-group-append">
                     <button class="btn btn-info" v-on:click="addPrefix(prefix)">
                       <span class="fa fa-plus"></span>
@@ -39,6 +39,7 @@
                 </div>
               </div>
             </div>
+            
           </div>
 
           <div class="col-md">
@@ -49,12 +50,16 @@
             <div class="card">
               <div class="card-body">
                 <ul class="list-group">
-                  <li
-                    class="list-group-item"
-                    v-for="sufix in sufixeds"
-                    v-bind:key="sufix"
-                  >
-                    {{ sufix }}
+                  <li class="list-group-item" v-for="sufix in sufixeds" v-bind:key="sufix">
+                    <div class="row">
+                      <div class="col-md">
+                        {{ sufix }}
+                      </div>
+                      <div class="col-md text-right">
+                        <button class="btn btn-info" v-on:click="deleteSufix(sufix)"><span class="fa fa-trash"> </span></button>
+                      </div>
+                    </div>
+                    
                   </li>
                 </ul>
                 <br />
@@ -89,6 +94,7 @@
         </div>
       </div>
     </div>
+    <h6 id="rodape">Feito por: <strong>Italo Alves</strong></h6>
   </div>
 </template>
 
@@ -126,6 +132,14 @@ export default {
 			this.sufix = "";
 			this.generate();
 		},
+		deleteSufix(sufix){
+			this.sufixeds.splice(this.sufixeds.indexOf(sufix), 1);
+			this.generate();
+		},
+		deletePrefix(prefix){
+			this.prefixeds.splice(this.prefixeds.indexOf(prefix), 1);
+			this.generate();
+		}
 	},
 };
 </script>
@@ -139,5 +153,8 @@ export default {
   background-color: #f1f1f1;
   padding-top: 30px;
   padding-bottom: 30px;
+}
+#rodape{
+  margin-left: 20px;
 }
 </style>
