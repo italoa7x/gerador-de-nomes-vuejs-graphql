@@ -82,19 +82,27 @@
         <div class="card">
           <div class="card-body">
             <ul class="list-group">
-              <li
-                class="list-group-item"
-                v-for="domain in domains"
-                v-bind:key="domain"
-              >
-                {{ domain }}
+              <li class="list-group-item" v-for="domain in domains" v-bind:key="domain.name">
+                <div class="row">
+                  <div class="col-md">
+                    {{ domain.name }}
+                  </div>
+                  <div class="col-md text-right">
+                    <a class="btn btn-info" target="_blank" v-bind:href="domain.checkout">
+                      <span class="fa fa-shopping-cart"/>
+                    </a>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-    <h6 id="rodape">Feito por: <strong>Italo Alves</strong></h6>
+    <h6 id="rodape">Feito por: <strong>Italo Alves 
+      <a class="icones_redes_socais" href="http://www.github.com/italoa7x" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+      <a class="icones_redes_socais" href="http://www.instagram.com/italo_a1" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+      </strong></h6>
   </div>
 </template>
 
@@ -108,39 +116,43 @@ export default {
 		return {
 			prefix: "",
 			sufix: "",
-			prefixeds: ["Air", "Micro"],
-			sufixeds: ["Jordan", "Soft"],
-			domains: ["AirJordan", "MicroSoft"],
+			prefixeds: ["Arib", "App"],
+			sufixeds: ["nb", "le"],
 		};
 	},
 	methods: {
-		generate() {
-			this.domains = [];
-			this.prefixeds.forEach((pref) => {
-				this.sufixeds.forEach((suf) => {
-					this.domains.push(pref + suf);
-				});
-			});
-		},
 		addPrefix(prefix) {
 			this.prefixeds.push(prefix);
 			this.prefix = "";
-			this.generate();
 		},
 		addSufix(sufix) {
 			this.sufixeds.push(sufix);
 			this.sufix = "";
-			this.generate();
 		},
 		deleteSufix(sufix){
 			this.sufixeds.splice(this.sufixeds.indexOf(sufix), 1);
-			this.generate();
 		},
 		deletePrefix(prefix){
 			this.prefixeds.splice(this.prefixeds.indexOf(prefix), 1);
-			this.generate();
 		}
 	},
+	computed: {
+		domains() {
+			const domains = [];
+			for(const prefix of this.prefixeds){
+				for(const suf of this.sufixeds){
+					const name = prefix + suf;
+					const url = name.toLowerCase();
+					const checkout = `https://checkout.hostgator.com.br/?a=add&sld=${url}&tld=.com.br`;
+					domains.push({
+						name,
+						checkout
+					});
+				}
+			}
+			return domains;
+		}
+	}
 };
 </script>
 
@@ -156,5 +168,8 @@ export default {
 }
 #rodape{
   margin-left: 20px;
+}
+.icones_redes_socais {
+  margin-left: 10px;
 }
 </style>
